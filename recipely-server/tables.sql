@@ -29,6 +29,6 @@ CREATE TABLE IF NOT EXISTS notes(
 CREATE TABLE IF NOT EXISTS user_lists(
   id SERIAL PRIMARY KEY,
   list_name VARCHAR(40) not null,
-  user_id INTEGER REFERENCES users (id) not null,
-  f2f_id VARCHAR(40) REFERENCES recipes (f2f_id)
+  ingredients TEXT not null,
+  user_id INTEGER REFERENCES users (id) not null
 );
