@@ -170,6 +170,13 @@ const MainDrawerNavigator = DrawerNavigator({
       drawerIcon: DrawerIcon('list'),
     }),
   },
+  GroceryList: {
+    screen: ProfileScreen, // change this to GroceryListScreen
+    navigationOptions: ({navigation}) => ({
+      drawerLabel: 'Grocery List',
+      drawerIcon: DrawerIcon('cake'),
+    }),
+  },
   Notes: {
     screen: NoteStack,
     navigationOptions: ({navigation}) => ({
