@@ -23,6 +23,7 @@ import SearchDetailScreen from '../screens/SearchDetailScreen';
 import NoteScreen from '../screens/NoteScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SideDrawer from '../components/SideDrawer.js';
+import GroceryListScreen from '../screens/GroceryListScreen'
 
 const MenuIcon = (navigation) => (
   <MaterialIcons
@@ -171,7 +172,7 @@ const MainDrawerNavigator = DrawerNavigator({
     }),
   },
   GroceryList: {
-    screen: ProfileScreen, // change this to GroceryListScreen
+    screen: GroceryListScreen,
     navigationOptions: ({navigation}) => ({
       drawerLabel: 'Grocery List',
       drawerIcon: DrawerIcon('cake'),
