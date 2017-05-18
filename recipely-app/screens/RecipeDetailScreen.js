@@ -22,6 +22,7 @@ class RecipeDetailScreen extends Component {
       ingredients: this.props.navigation.state.params.ingredients,
       notes: this.props.navigation.state.params.notes,
     };
+    console.log(this.state.notes);
   }
 
   componentDidMount() {

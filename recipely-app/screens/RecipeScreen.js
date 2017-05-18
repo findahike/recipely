@@ -14,6 +14,8 @@ class RecipeScreen extends Component {
 
   render() {
     const { navigation, screenProps } = this.props;
+    console.log(this.props);
+
 
     return (
       <View style={styles.container}>
