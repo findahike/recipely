@@ -394,27 +394,27 @@ function putList(req, res) {
 
 function deleteList(req, res) {
   // var userId = req.body.issuer;
-  // var list = req.params.listName;
-  // var query = `
-  //   DELETE FROM user_lists
-  //   WHERE user_id = ${userId}
-  //   AND list_name = ${list}`;
+  var userId = 1;
+  var list = req.params.listName;
+  var params = [userId, list];
+  var query = `
+    DELETE FROM user_lists
+    WHERE user_id = $1
+    AND list_name = $2`;
 
-  // return db.queryAsync(query)
-  //   .then(results => {
-  //     if(results.rowCount) {
-  //       res.status(201).json(results.rows)
-  //     } else {
-  //       res.status(404).end('The resource is not found')
-  //     }
-  //   })
-  //   .catch(err => {
-  //     console.log(err)
-  //     res.status(500).json(err);
-  //   });
+  return db.queryAsync(query, params)
+    .then(results => {
+      if(results.rowCount) {
+        res.status(201).json(results.rows)
+      } else {
+        res.status(404).end('The resource is not found')
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json(err);
+    });
 }
-
-
 
 function postClarifai(req, res) {
   axios.post('https://api.clarifai.com/v2/token', null, {
