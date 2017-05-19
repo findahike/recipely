@@ -157,6 +157,20 @@ const ProfileStack = StackNavigator({
   }
 });
 
+const GroceryStack = StackNavigator({
+  Grocery: {
+    screen: GroceryListScreen,
+    navigationOptions: ({ screenProps, navigation }) => ({
+      title: `${screenProps.user.username}'s grocery list`,
+      headerLeft: MenuIcon(navigation),
+    }),
+  }
+}, {
+  cardStyle: {
+    paddingTop: Constants.statusBarHeight,
+  }
+});
+
 const MainDrawerNavigator = DrawerNavigator({
   Find: {
     screen: SearchStack,
@@ -173,7 +187,7 @@ const MainDrawerNavigator = DrawerNavigator({
     }),
   },
   GroceryList: {
-    screen: GroceryListScreen,
+    screen: GroceryStack,
     navigationOptions: ({navigation}) => ({
       drawerLabel: 'Grocery List',
       drawerIcon: DrawerIcon('cake'),
