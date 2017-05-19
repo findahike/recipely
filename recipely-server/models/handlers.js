@@ -350,6 +350,92 @@ function deleteUsersRecipe(req, res) {
     });
 }
 
+function getLists(req, res) {
+  var userId = req.body.issuer;
+  var query = `SELECT * FROM user_lists WHERE user_id = ${userId}`;
+
+  return db.queryAsync(query)
+    .then(results => {
+      if(results.rows.length) {
+        res.status(200).json(results.rows);
+      } else {
+        res.status(200).end('You have no saved lists.');
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json(err);
+    });
+}
+
+function postList(req, res) {
+  var userId = req.body.issuer;
+  var list = req.body.listName;
+  var ingredients = req.body.ingredients;
+  var params = [list, ingredients, userId];
+  var query = `
+    INSERT INTO user_lists(list_name, ingredients, user_id)
+    VALUES ($1, $2, $3)
+    RETURNING *
+  `;
+
+  return db.queryAsync(query, params)
+    .then(results => {
+      res.status(201).json(results.rows);
+    }).catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+}
+
+function putList(req, res) {
+  var userId = req.body.issuer;
+  var list = req.params.listName;
+  var ingredients = req.body.ingredients;
+  var params = [userId, list, ingredients];
+  var query = `
+    UPDATE user_lists SET ingredients = $3
+    WHERE user_id = $1 AND list_name = $2
+    RETURNING *
+  `;
+
+  // query must return something for the if else block to check
+  return db.queryAsync(query, params)
+    .then(results => {
+      if(results.rows.length) {
+        res.status(201).send(results.rows);
+      } else {
+        res.status(404).send('resource is not available');
+      }
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+}
+
+function deleteList(req, res) {
+  var userId = req.body.issuer;
+  var list = req.params.listName;
+  var params = [userId, list];
+  var query = `
+    DELETE FROM user_lists
+    WHERE user_id = $1
+    AND list_name = $2`;
+
+  return db.queryAsync(query, params)
+    .then(results => {
+      if(results.rowCount) {
+        res.status(201).json(results.rows)
+      } else {
+        res.status(404).end('The resource is not found')
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json(err);
+    });
+}
+
 function postClarifai(req, res) {
   axios.post('https://api.clarifai.com/v2/token', null, {
     auth: {
@@ -380,5 +466,9 @@ module.exports = {
   getUsersRecipes,
   deleteUsersRecipe,
   postClarifai,
-  getRefreshToken
+  getRefreshToken,
+  getLists,
+  postList,
+  putList,
+  deleteList
 }
