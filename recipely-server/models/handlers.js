@@ -393,8 +393,7 @@ function putList(req, res) {
 }
 
 function deleteList(req, res) {
-  // var userId = req.body.issuer;
-  var userId = 1;
+  var userId = req.body.issuer;
   var list = req.params.listName;
   var params = [userId, list];
   var query = `
