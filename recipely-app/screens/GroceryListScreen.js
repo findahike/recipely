@@ -47,20 +47,23 @@ class GroceryListScreen extends Component {
   }
 
   // TODO: fetch the grocery list from the database and assign to a state variable
-  // componentDidMount() {
-  //   fetch(`https://fireant-recipely.herokuapp.com/api/grocerylist`, {
-  //     method: 'GET',
-  //     headers: {
-  //       'x-access-token': `Bearer ${idToken}`,
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({ text: this.state.text }),
-  //   });
-  // }
+  componentDidMount() {
+    // assume idToken is passed to screen through props
+    const { idToken } = this.props.navigation.state.params;
+    fetch(`https://fireant-recipely.herokuapp.com/api/grocerylist`, {
+      headers: {
+        'x-access-token': `Bearer ${idToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ text: this.state.text }),
+    })
+    .then(res => res.json())
+    .then(result => this.setState({ groceryList: result.recipe.groceryList}));
+  }
 
   render() {
     // TODO: populate with grocery list ingredients from database
-    const ingredients = ['1','asdfadsfa','1252352rewfdsv'];
+    const ingredients = this.state.groceryList;
     var length = 0;
     return (
       <View>
