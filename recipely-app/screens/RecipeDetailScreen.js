@@ -70,8 +70,8 @@ class RecipeDetailScreen extends Component {
     // add grocery list to database
     fetch('https://fireant-recipely.herokuapp.com/api/grocerylist', {
       method: 'POST'
-    })
-    this.props.navigation.navigate('GroceryList');
+    });
+    // this.props.navigation.navigate('GroceryList');
   }
 
   // Delete note
