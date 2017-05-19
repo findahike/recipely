@@ -4,8 +4,13 @@ import {
   StyleSheet,
   Text,
   View,
+  ScrollView,
+  FlatList,
+  TextInput,
+  KeyboardAvoidingView
 } from 'react-native';
 // import GroceryList from '../components/GroceryList';
+import { Card, List, ListItem } from 'react-native-elements';
 import IngredientList from '../components/IngredientList';
 import Button from '../components/CustomButton';
 
@@ -13,18 +18,12 @@ class GroceryListScreen extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      // ingredients: this.props.,
-      // allIngredients: []
-    };
+    // this.state = {
+    //   // ingredients: this.props.,
+    //   // allIngredients: []
+    // };
 
-    this.addIngredients = () => {
-      // if(this.state.allIngredeints.length === 0) {
-      //   this.setState({allIngredients: this.state.ingredients});
-      // } else {
-      //   this.setState({allIngredients: this.state.allIngredients.concat(this.state.ingredients)});
-      // }
-    };
+
 
     // onDeletePress = (ingredient) => {
     //   // Remove grocery list from user's grocery list
@@ -82,24 +81,27 @@ class GroceryListScreen extends Component {
     var length = 0;
     return (
       <View>
-        { ingredients.map((item, i) => {
-          length++;
-            return (
-              <View
-                key={length}
-                style={styles.ingredientEntry}
-              >
-              <Text>{item}</Text>
-
-              <Button
-                title="Remove"
-                icon={{name: 'remove-circle-outline'}}
-                buttonStyle={{marginRight: 0, height: 36, paddingHorizontal: 8}}
-              />
-              </View>
-            );
-          })
-        }
+        <Card title="Grocery List">
+          { ingredients.map((item, i) => {
+            length++;
+              return (
+                <View
+                  key={length}
+                  style={styles.rowContainer}
+                >
+                <View style={styles.ingredientEntry}>
+                  <Text>{item}</Text>
+                </View>
+                <Button
+                  title="Remove"
+                  icon={{name: 'remove-circle-outline'}}
+                  buttonStyle={{marginRight: 0, height: 36, paddingHorizontal: 8}}
+                />
+                </View>
+              );
+            })
+          }
+        </Card>
       </View>
     );
   }
@@ -109,6 +111,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  rowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 5,
+  },
+  ingredientEntry: {
+    flexDirection: 'column',
+  }
 });
 
 export default GroceryListScreen;
