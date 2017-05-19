@@ -38,7 +38,7 @@ class App extends Component {
         this.setIdToken(idToken);
 
         // Make a request to our server to get a new token
-        const getRefreshToken = fetch('https://jellyfiish-recipely.herokuapp.com/api/token', {
+        const getRefreshToken = fetch('https://fireant-recipely.herokuapp.com/api/token', {
           headers: { 'x-access-token': `Bearer ${idToken}` }
         }).then(res => res.json())
           .then(refreshToken => {
@@ -48,7 +48,7 @@ class App extends Component {
           });
 
         // Fetch user's recipes
-        const fetchRecipes = fetch('https://jellyfiish-recipely.herokuapp.com/api/users/recipes', {
+        const fetchRecipes = fetch('https://fireant-recipely.herokuapp.com/api/users/recipes', {
           headers: { 'x-access-token': `Bearer ${idToken}` }
         }).then(res => {
             if (res.status === 200) {
@@ -58,7 +58,7 @@ class App extends Component {
           });
 
         // Fetch user's notes
-        const fetchNotes = fetch('https://jellyfiish-recipely.herokuapp.com/api/users/notes', {
+        const fetchNotes = fetch('https://fireant-recipely.herokuapp.com/api/users/notes', {
           headers: { 'x-access-token': `Bearer ${idToken}` }
         }).then(res => {
             if (res.status === 200) {

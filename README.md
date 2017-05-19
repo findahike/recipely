@@ -100,7 +100,7 @@ This is a protected endpoint requiring a valid JSON web token. See the [Signup &
 
  Fetch a list of recipes from the [Food2Fork](http://food2fork.com/) database. Optionally, you may search by ingredients by adding them as a comma separated string in the query string.
 
- e.q. `https://jellyfiish-recipely.herokuapp.com/api/recipes?q=rice,chicken`
+ e.q. `https://fireant-recipely.herokuapp.com/api/recipes?q=rice,chicken`
 
  Will return an object containing an array of recipe objects. If no ingredients are given, will return the most popular recipes. This endpoint is meant to emulate the Food2Fork API as much as possible, while using the recipely server's Food2Fork API key.
 
@@ -110,7 +110,7 @@ This is a protected endpoint requiring a valid JSON web token. See the [Signup &
 
  Fetch the details (including the ingredients) of a single recipe from the Food2Fork database. The recipe id can be obtained from the results of the above endpoint or from the Food2Fork website, and must be passed in the request url:
 
- e.g. `https://jellyfiish-recipely.herokuapp.com/api/recipes/54384`
+ e.g. `https://fireant-recipely.herokuapp.com/api/recipes/54384`
 
 
 ### Saved Recipes
@@ -177,7 +177,7 @@ These are protected endpoints requiring a valid JSON web token. See the [Signup 
 
  Remove a recipe from the user's list of saved recipes. The recipe/Food2Fork id must be passed in the request url.
 
- e.g. `https://jellyfiish-recipely.herokuapp.com/api/users/recipes/54384`
+ e.g. `https://fireant-recipely.herokuapp.com/api/users/recipes/54384`
 
  Returns the deleted recipe object, if a match is found.
 
@@ -215,7 +215,7 @@ These are protected endpoints requiring a valid JSON web token. See the [Signup 
 
  Fetch all notes for a specific recipe in the user's list of saved recipes. The recipe id must be passed in the request url.
 
- e.g. `https://jellyfiish-recipely.herokuapp.com/api/users/recipes/54384/notes`
+ e.g. `https://fireant-recipely.herokuapp.com/api/users/recipes/54384/notes`
 
  Returns an array of note objects similar to the above endpoint.
 
@@ -239,7 +239,7 @@ These are protected endpoints requiring a valid JSON web token. See the [Signup 
 
  For example:
 
- `https://jellyfiish-recipely.herokuapp.com/api/notes/21`
+ `https://fireant-recipely.herokuapp.com/api/notes/21`
  ```JSON
   {
     "text": "My modified note."
@@ -341,4 +341,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 
 ### Roadmap
 
-View the project roadmap [here](https://github.com/Jellyfiish/recipely/issues)
+View the project roadmap [here](https://github.com/fireant/recipely/issues)
