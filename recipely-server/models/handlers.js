@@ -389,7 +389,28 @@ function postList(req, res) {
 }
 
 function putList(req, res) {
+  var userId = req.body.issuer;
+  var list = req.params.listName;
+  var ingredients = req.body.ingredients;
+  var params = [userId, list, ingredients];
+  var query = `
+    UPDATE user_lists SET ingredients = $3
+    WHERE user_id = $1 AND list_name = $2
+    RETURNING *
+  `;
 
+  // query must return something for the if else block to check
+  return db.queryAsync(query, params)
+    .then(results => {
+      if(results.rows.length) {
+        res.status(201).send(results.rows);
+      } else {
+        res.status(404).send('resource is not available');
+      }
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
 }
 
 function deleteList(req, res) {
