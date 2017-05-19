@@ -5,7 +5,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import GroceryList from '../components/GroceryList';
+// import GroceryList from '../components/GroceryList';
 import IngredientList from '../components/IngredientList';
 
 class GroceryListScreen extends Component {
@@ -13,8 +13,8 @@ class GroceryListScreen extends Component {
     super(props);
 
     this.state = {
-      ingredients: this.props.navigation.state.params.ingredients
-      allIngredients: [];
+      ingredients: this.props.navigation.state.params.ingredients,
+      allIngredients: []
     };
 
     this.addIngredients = () => {
@@ -42,7 +42,7 @@ class GroceryListScreen extends Component {
     //     'x-access-token': `Bearer ${idToken}`,
     //   },
     // });
-  };
+  // };
   }
 
   render() {
