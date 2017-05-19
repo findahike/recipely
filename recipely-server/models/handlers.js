@@ -350,6 +350,38 @@ function deleteUsersRecipe(req, res) {
     });
 }
 
+function getLists(req, res) {
+  var userId = req.body.issuer;
+  var query = `SELECT * FROM user_lists WHERE user_id = ${userId}`;
+
+  return db.queryAsync(query)
+    .then(results => {
+      if(results.rows.length) {
+        res.status(200).json(results.rows);
+      } else {
+        res.status(200).end('You have no saved lists.');
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json(err);
+    });
+}
+
+function postList(req, res) {
+
+}
+
+function putList(req, res) {
+
+}
+
+function deleteList(req, res) {
+
+}
+
+
+
 function postClarifai(req, res) {
   axios.post('https://api.clarifai.com/v2/token', null, {
     auth: {
@@ -380,5 +412,9 @@ module.exports = {
   getUsersRecipes,
   deleteUsersRecipe,
   postClarifai,
-  getRefreshToken
+  getRefreshToken,
+  getLists,
+  postList,
+  putList,
+  deleteList
 }

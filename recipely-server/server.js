@@ -48,6 +48,15 @@ app.put('/api/notes/:id_note', isAuthenticated, handlers.putNote);
 
 app.delete('/api/notes/:id_note', isAuthenticated, handlers.deleteNote);
 
+// lists endpoints
+app.get('/api/users/lists', handlers.getLists);
+
+app.post('/api/users/lists', isAuthenticated, handlers.postList);
+
+app.put('/api/users/lists/:id', isAuthenticated, handlers.putList);
+
+app.delete('/api/users/lists/:id', isAuthenticated, handlers.deleteList);
+
 // clarifai auth token endpoint
 app.post('/api/clarifai', isAuthenticated, handlers.postClarifai);
 
