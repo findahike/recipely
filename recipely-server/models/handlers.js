@@ -369,7 +369,23 @@ function getLists(req, res) {
 }
 
 function postList(req, res) {
+  var userId = req.body.issuer;
+  var list = req.body.listName;
+  var ingredients = req.body.ingredients;
+  var params = [list, ingredients, userId];
+  var query = `
+    INSERT INTO user_lists(list_name, ingredients, user_id)
+    VALUES ($1, $2, $3)
+    RETURNING *
+  `;
 
+  return db.queryAsync(query, params)
+    .then(results => {
+      res.status(201).json(results.rows);
+    }).catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 }
 
 function putList(req, res) {
@@ -377,7 +393,25 @@ function putList(req, res) {
 }
 
 function deleteList(req, res) {
+  // var userId = req.body.issuer;
+  // var list = req.params.listName;
+  // var query = `
+  //   DELETE FROM user_lists
+  //   WHERE user_id = ${userId}
+  //   AND list_name = ${list}`;
 
+  // return db.queryAsync(query)
+  //   .then(results => {
+  //     if(results.rowCount) {
+  //       res.status(201).json(results.rows)
+  //     } else {
+  //       res.status(404).end('The resource is not found')
+  //     }
+  //   })
+  //   .catch(err => {
+  //     console.log(err)
+  //     res.status(500).json(err);
+  //   });
 }
 
 
