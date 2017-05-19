@@ -65,10 +65,13 @@ class RecipeDetailScreen extends Component {
     });
   }
 
-  // Navigate to grocery list screen with array of ingredients
+  // Navigate to grocery list
   onGroceryPress = (ingredients) => {
-    console.log('pressed grocery button ', ingredients);
-    this.props.navigation.navigate('GroceryList', {...ingredients});
+    // add grocery list to database
+    fetch('https://jellyfiish-recipely.herokuapp.com/api/grocerylist', {
+      method: 'POST'
+    })
+    this.props.navigation.navigate('GroceryList');
   }
 
   // Delete note
@@ -97,7 +100,7 @@ class RecipeDetailScreen extends Component {
 
   render() {
     const { title, thumbnail_url, image_url } = this.props.navigation.state.params;
-
+    console.log('inside recipe detail screen ', this.state.ingredients);
     return (
       <ScrollView>
         <Card
