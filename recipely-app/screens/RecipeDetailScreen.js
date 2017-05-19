@@ -65,6 +65,12 @@ class RecipeDetailScreen extends Component {
     });
   }
 
+  // Navigate to grocery list screen with array of ingredients
+  onGroceryPress = (ingredients) => {
+    console.log('pressed grocery button ', ingredients);
+    this.props.navigation.navigate('GroceryList', {...ingredients});
+  }
+
   // Delete note
   onDeletePress = (note) => {
     // Remove note from user's list of notes
@@ -116,6 +122,10 @@ class RecipeDetailScreen extends Component {
             <Button
               title='Directions'
               onPress={this.handlePressButtonAsync}
+            />
+            <Button
+              title='Add to Grocery List'
+              onPress={() => this.onGroceryPress(this.state.ingredients)}
             />
           </View>
         </Card>
