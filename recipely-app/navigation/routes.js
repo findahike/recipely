@@ -23,7 +23,7 @@ import SearchDetailScreen from '../screens/SearchDetailScreen';
 import NoteScreen from '../screens/NoteScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SideDrawer from '../components/SideDrawer.js';
-import GroceryListScreen from '../screens/GroceryListScreen'
+import GroceryListScreen from '../screens/GroceryListScreen';
 
 const MenuIcon = (navigation) => (
   <MaterialIcons
