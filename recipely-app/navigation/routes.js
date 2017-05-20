@@ -24,6 +24,7 @@ import NoteScreen from '../screens/NoteScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SideDrawer from '../components/SideDrawer.js';
 import GroceryListScreen from '../screens/GroceryListScreen';
+//import AddRecipeScreen from '../screens/AddRecipeScreen';
 
 
 const MenuIcon = (navigation) => (
@@ -171,11 +172,25 @@ const GroceryStack = StackNavigator({
   }
 });
 
+// const AddRecipeStack = StackNavigator({
+//   AddRecipe: {
+//     screen: SearchDetailScreen,
+//     navigationOptions: ({ screenProps, navigation }) => ({
+//       title: `Add a recipe`,
+//       headerLeft: MenuIcon(navigation),
+//     }),
+//   }
+// }, {
+//   cardStyle: {
+//     paddingTop: Constants.statusBarHeight,
+//   }
+// });
+
 const MainDrawerNavigator = DrawerNavigator({
   Find: {
     screen: SearchStack,
     navigationOptions: ({navigation}) => ({
-      drawerLabel: 'Find recipes',
+      drawerLabel: 'Recipely',
       drawerIcon: DrawerIcon('search'),
     }),
   },
@@ -186,11 +201,18 @@ const MainDrawerNavigator = DrawerNavigator({
       drawerIcon: DrawerIcon('list'),
     }),
   },
+  AddRecipe: {
+    screen: RecipeStack,
+    navigationOptions: ({navigation}) => ({
+      drawerLabel: 'Add a Recipe',
+      drawerIcon: DrawerIcon('cake'),
+    }),
+  },
   GroceryList: {
     screen: GroceryStack,
     navigationOptions: ({navigation}) => ({
       drawerLabel: 'Grocery List',
-      drawerIcon: DrawerIcon('cake'),
+      drawerIcon: DrawerIcon('shopping-basket'),
     }),
   },
   Notes: {
