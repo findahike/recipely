@@ -19,6 +19,7 @@ class SearchResultScreen extends Component {
       fetch(`https://fireant-recipely.herokuapp.com/api/recipes?q=${query}`)
         .then(res => res.json())
         .then(apiResults => {
+          // fetch user recipes
           return fetch(`https://fireant-recipely.herokuapp.com/api/users/userrecipes`, {
             method: 'GET',
             headers: {
