@@ -436,6 +436,19 @@ function deleteList(req, res) {
     });
 }
 
+function getCustomRecipes(req, res) {
+  var userId = req.body.issuer;
+  var query = `SELECT * FROM custom_recipes WHERE user_id = ${userId}`;
+
+  return db.queryAsync(query)
+    .then(results => {
+      res.status(200).json(results.rows);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    })
+}
 
 function postCustomRecipe(req, res) {
   var userId = req.body.issuer;
@@ -491,5 +504,6 @@ module.exports = {
   postList,
   putList,
   deleteList,
-  postCustomRecipe
+  postCustomRecipe,
+  getCustomRecipes
 }
