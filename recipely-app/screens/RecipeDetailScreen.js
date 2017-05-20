@@ -9,6 +9,7 @@ import {
   Image,
   KeyboardAvoidingView
 } from 'react-native';
+import Popup from 'react-native-popup';
 import { Card, Icon } from 'react-native-elements';
 import IngredientList from '../components/IngredientList';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -67,17 +68,24 @@ class RecipeDetailScreen extends Component {
 
   // Navigate to grocery list
   onGroceryPress = (ingredients) => {
-    // add grocery list to database
-    const { idToken } = this.props.navigation.state.params;
-    fetch('https://fireant-recipely.herokuapp.com/api/users/lists', {
-      method: 'POST',
-      headers: {
-        'x-access-token': `Bearer ${idToken}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({listName: 'grocerylist', ingredients: ingredients})
-    });
-    // this.props.navigation.navigate('GroceryList');
+    this.popup.confirm({
+            content: 'Are you sure?',
+            ok: {
+              callback: () => {
+                 // add grocery list to database
+                const { idToken } = this.props.navigation.state.params;
+                fetch('https://fireant-recipely.herokuapp.com/api/users/lists', {
+                  method: 'POST',
+                  headers: {
+                    'x-access-token': `Bearer ${idToken}`,
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({listName: 'grocerylist', ingredients: ingredients})
+                });
+                // this.props.navigation.navigate('GroceryList');
+              }
+            }
+        });
   }
 
   // Delete note
@@ -134,7 +142,9 @@ class RecipeDetailScreen extends Component {
             />
             <Button
               title='Add to Grocery List'
-              onPress={() => this.onGroceryPress(this.state.ingredients)}
+              onPress={
+                () => this.onGroceryPress(this.state.ingredients)
+              }
             />
           </View>
         </Card>
@@ -180,6 +190,7 @@ class RecipeDetailScreen extends Component {
             />
           </View>
         </View>
+        <Popup ref={popup => this.popup = popup } isOverlay={true} isOverlayClickClose={true}/>
       </ScrollView>
     );
   }
