@@ -23,6 +23,11 @@ app.get('/api/users/recipes', isAuthenticated, handlers.getUsersRecipes);
 
 app.delete('/api/users/recipes/:recipeId', isAuthenticated, handlers.deleteUsersRecipe);
 
+// custom_recipes endpoints
+app.post('/api/users/custom_recipes/', isAuthenticated, handlers.postCustomRecipe);
+
+app.get('/api/users/custom_recipes/', isAuthenticated, handlers.getCustomRecipes);
+
 // auth endpoints
 app.post('/api/login', handlers.postLogin);
 
