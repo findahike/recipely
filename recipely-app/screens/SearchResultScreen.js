@@ -13,12 +13,23 @@ class SearchResultScreen extends Component {
   }
 
   componentDidMount() {
-    const { searchResults, onSearchChange } = this.props.screenProps;
+    const { searchResults, onSearchChange, idToken } = this.props.screenProps;
     const { query } = this.props.navigation.state.params;
     if (!searchResults.hasOwnProperty(query)) {
       fetch(`https://fireant-recipely.herokuapp.com/api/recipes?q=${query}`)
         .then(res => res.json())
-        .then(results => onSearchChange(query, results.recipes));
+        .then(apiResults => {
+          return fetch(`https://fireant-recipely.herokuapp.com/api/users/userrecipes`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-access-token': `Bearer ${idToken}`
+            }
+          })
+          .then(res => res.json())
+          .then(res => apiResults.recipes.userCreated = res);
+        })
+        .then(results => onSearchChange(query, results.recipes))
     }
   }
 
