@@ -28,6 +28,10 @@ app.post('/api/users/custom_recipes/', isAuthenticated, handlers.postCustomRecip
 
 app.get('/api/users/custom_recipes/', isAuthenticated, handlers.getCustomRecipes);
 
+app.delete('/api/users/custom_recipes/:id', isAuthenticated, handlers.deleteCustomRecipe);
+
+app.put('/api/users/custom_recipes/:id', isAuthenticated, handlers.updateCustomRecipe);
+
 // auth endpoints
 app.post('/api/login', handlers.postLogin);
 
