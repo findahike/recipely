@@ -54,6 +54,14 @@ class SearchScreen extends Component {
     }
   };
 
+  onAddRecipesPress = () => {
+    const query = this.props.screenProps.ingredients.map(item => item.name).join(',');
+    // Change screen only if there is some ingredient being searched
+    if (query.length !== 0) {
+      this.props.navigation.navigate('AddRecipe', {query});
+    }
+  };
+
   // Truncate number to two decimal places. Returns it as a string.
   truncateNum(num) {
     numStr = num.toString();
@@ -114,6 +122,13 @@ class SearchScreen extends Component {
             title="Find recipes"
             icon={{name: 'search'}}
             onPress={() => this.onFindRecipesPress()}
+          />
+          </View>
+          <View style={styles.findWrap}>
+        <Button
+            title="Add a recipe"
+            icon={{name: 'search'}}
+            onPress={() => this.onAddRecipesPress()}
           />
         </View>
       </View>

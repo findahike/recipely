@@ -24,7 +24,7 @@ import NoteScreen from '../screens/NoteScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SideDrawer from '../components/SideDrawer.js';
 import GroceryListScreen from '../screens/GroceryListScreen';
-//import AddRecipeScreen from '../screens/AddRecipeScreen';
+import AddRecipeScreen from '../screens/AddRecipeScreen';
 
 
 const MenuIcon = (navigation) => (
@@ -172,19 +172,19 @@ const GroceryStack = StackNavigator({
   }
 });
 
-// const AddRecipeStack = StackNavigator({
-//   AddRecipe: {
-//     screen: SearchDetailScreen,
-//     navigationOptions: ({ screenProps, navigation }) => ({
-//       title: `Add a recipe`,
-//       headerLeft: MenuIcon(navigation),
-//     }),
-//   }
-// }, {
-//   cardStyle: {
-//     paddingTop: Constants.statusBarHeight,
-//   }
-// });
+const AddRecipeStack = StackNavigator({
+  AddRecipe: {
+    screen: AddRecipeScreen,
+    navigationOptions: ({ screenProps, navigation }) => ({
+      title: `Add a recipe`,
+      headerLeft: MenuIcon(navigation),
+    }),
+  }
+}, {
+  cardStyle: {
+    paddingTop: Constants.statusBarHeight,
+  }
+});
 
 const MainDrawerNavigator = DrawerNavigator({
   Find: {
@@ -202,7 +202,7 @@ const MainDrawerNavigator = DrawerNavigator({
     }),
   },
   AddRecipe: {
-    screen: RecipeStack,
+    screen: AddRecipeStack,
     navigationOptions: ({navigation}) => ({
       drawerLabel: 'Add a Recipe',
       drawerIcon: DrawerIcon('cake'),
