@@ -32,3 +32,14 @@ CREATE TABLE IF NOT EXISTS user_lists(
   ingredients TEXT not null,
   user_id INTEGER REFERENCES users (id) not null
 );
+
+CREATE TABLE IF NOT EXISTS custom_recipes(
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(40) not null,
+  ingredients TEXT not null,
+  source_url VARCHAR(255),
+  thumbnail_url VARCHAR(255),
+  saved_count INTEGER,
+  directions TEXT,
+  user_id INTEGER REFERENCES users (id) not null
+);
