@@ -9,7 +9,6 @@ import {
   TextInput,
   KeyboardAvoidingView
 } from 'react-native';
-// import GroceryList from '../components/GroceryList';
 import { Card, List, ListItem } from 'react-native-elements';
 import IngredientList from '../components/IngredientList';
 import Button from '../components/CustomButton';
@@ -17,56 +16,60 @@ import Button from '../components/CustomButton';
 class GroceryListScreen extends Component {
   constructor(props) {
     super(props);
-
-    // this.state = {
-    //   // ingredients: this.props.,
-    //   // allIngredients: []
-    // };
-
-
-
-    onDeletePress = (ingredient) => {
-      // Remove grocery list from user's grocery list
-      this.props.screenProps.onNotesChange(
-        this.props.screenProps.notes.filter(otherNote => otherNote.id !== note.id)
-      );
-      // Show notes that are associated with this recipe except for the deleted one
-      this.setState({
-        ingredients: this.state.ingredients.filter(otherNote => otherNote.id !== note.id)
-      });
-      // TODO: remove grocery list by id from database
-      const { idToken } = this.props.navigation.state.params;
-      fetch(`https://fireant-recipely.herokuapp.com/api/notes/${note.id}`, {
-        method: 'DELETE',
-        headers: {
-          'x-access-token': `Bearer ${idToken}`,
-        },
-      });
+    this.state = {
+      groceryList: []
     };
-
   }
 
-  // TODO: fetch the grocery list from the database and assign to a state variable
   componentDidMount() {
-    // assume idToken is passed to screen through props
-    const { idToken } = this.props.navigation.state.params;
-    fetch(`https://fireant-recipely.herokuapp.com/api/grocerylist`, {
+    const { idToken } = this.props.screenProps;
+    fetch(`https://fireant-recipely.herokuapp.com/api/users/lists`, {
       headers: {
         'x-access-token': `Bearer ${idToken}`,
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ text: this.state.text }),
+      }
     })
-    .then(res => res.json())
-    .then(result => this.setState({ groceryList: result.recipe.groceryList}));
+    .then(res =>
+       res.json()
+    )
+    .then(result => {
+      var groceryList = result.map((recipe) => {
+        return recipe.ingredients.substring(2, recipe.ingredients.length - 2);
+      });
+      this.setState({groceryList: groceryList.join('","').split('","')});
+    });
   }
 
+  onDeletePress = (index) => {
+    const { idToken } = this.props.screenProps;
+
+    this.state.groceryList.splice(index, 1);
+    this.setState({groceryList: this.state.groceryList});
+
+    fetch(`https://fireant-recipely.herokuapp.com/api/users/lists/grocerylist`, {
+      method: 'DELETE',
+      headers: {
+        'x-access-token': `Bearer ${idToken}`,
+      },
+    })
+    .then((result) => {
+      fetch(`https://fireant-recipely.herokuapp.com/api/users/lists`, {
+        method: 'POST',
+        headers: {
+          'x-access-token': `Bearer ${idToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({listName: 'grocerylist', ingredients: this.state.groceryList})
+      });
+    });
+  }
+
+
   render() {
-    // TODO: populate with grocery list ingredients from database
     const ingredients = this.state.groceryList;
     var length = 0;
     return (
-      <View>
+      <ScrollView>
         <Card title="Grocery List">
           { ingredients.map((item, i) => {
             length++;
@@ -82,28 +85,29 @@ class GroceryListScreen extends Component {
                   title="Remove"
                   icon={{name: 'remove-circle-outline'}}
                   buttonStyle={{marginRight: 0, height: 36, paddingHorizontal: 8}}
+                  onPress={() => this.onDeletePress(i)}
                 />
                 </View>
               );
             })
           }
         </Card>
-      </View>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   rowContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: 5,
+    flexWrap: 'wrap'
   },
   ingredientEntry: {
     flexDirection: 'column',
+    maxWidth: 200,
+    flexGrow: 1
   }
 });
 
