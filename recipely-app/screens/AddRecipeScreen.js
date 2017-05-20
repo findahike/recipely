@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  AppRegistry,
   StyleSheet,
   ActivityIndicator,
   ScrollView,
@@ -7,108 +8,231 @@ import {
   View,
   TextInput,
 } from 'react-native';
+import Slider from 'react-native-slider';
+import ModalDropdown from 'react-native-modal-dropdown';
 import Button from '../components/CustomButton';
+import { Card, List, ListItem } from 'react-native-elements';
+import IngredientList from '../components/IngredientList';
 
-// class AddNoteScreen extends Component {
-//   constructor(props) {
-//     super(props);
+class AddRecipeScreen extends Component {
+  constructor(props) {
+    super(props);
 
-//     this.state = {
-//       text: '',
-//       isAdding: false,
-//       height: 0,
-//     };
-//   }
+    this.state = {
+      length: 0,
+      title: '',
+      ingredients: [],
+      valueArray: [],
+      unitArray: [],
+      text: '',
+      value: 0,
+      isAdding: false,
+      body: []
+    };
+  }
 
-//   onAddPress = () => {
-//     this.setState({isAdding: true});
-//     const { idToken, f2f_id, title, thumbnail_url, onGoBack } = this.props.navigation.state.params;
+  componentDidMount() {
+    const { idToken } = this.props.screenProps;
+    var ingredients = this.props.screenProps.ingredients;
+    var ingredientList = ingredients.map((ingredient) => {
+      this.state.unitArray.push(0)
+      this.state.valueArray.push(0);
+      this.state.length++;
+      return ingredient.name;
+    });
 
-//     fetch('https://fireant-recipely.herokuapp.com/api/users/recipes/notes', {
-//       method: 'POST',
-//       headers: {
-//         'x-access-token': `Bearer ${idToken}`,
-//         'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify({
-//         text: this.state.text,
-//         f2f_id
-//       }),
-//     }).then(res => res.json())
-//       .then(noteArray => {
-//         // API returns a note inside an rray
-//         const note = noteArray[0];
-//         const newNote = {...note, title, thumbnail_url};
-//         return newNote;
-//       })
-//       .then(newNote => {
-//         const notes = this.props.screenProps.notes;
-//         this.props.screenProps.onNotesChange(
-//           [ ...notes, newNote ],
-//           // onNotesChange calls setState which is not synchronous. Need to wait
-//           // for the new note to be added before we navigate user back.
-//           () => {
-//             // // Need to trigger a render in previous component.
-//             onGoBack(this.props.screenProps.notes.filter(
-//               otherNote => newNote.f2f_id === otherNote.f2f_id)
-//             );
-//           }
-//         );
-//         this.setState({isAdding: false});
-//       })
-//       .then(() => this.props.navigation.goBack());
-//   };
+    this.setState({ingredients: ingredientList});
+  }
 
-//   render() {
-//     return (
-//       <ScrollView>
-//         <View style={styles.wrapper}>
-//           <View style={styles.inputWrap}>
-//             <TextInput
-//               style={[styles.input, {height: Math.max(40, this.state.height + 10)}]}
-//               autoFocus={true}
-//               multiline={true}
-//               onChangeText={text => {
-//                 this.setState({text});
-//               }}
-//               onChange={event => {
-//                 this.setState({height: event.nativeEvent.contentSize.height});
-//               }}
-//             >
-//               <Text>{this.state.text}</Text>
-//             </TextInput>
-//           </View>
+  onValueChange = (value, i) => {
+    this.state.valueArray[i] = value;
+    this.setState({valueArray: this.state.valueArray});
+  }
 
-//           { this.state.isAdding
-//             ? <ActivityIndicator size="large" />
-//               : <Button
-//                   title="Add"
-//                   icon={{name: 'recipe-add'}}
-//                   onPress={this.onAddPress}
-//                 />
-//           }
-//         </View>
-//       </ScrollView>
-//     );
-//   }
-// }
+  onUnitChange = (value, i) => {
+    console.log(value, 'value');
+    console.log(i, 'i');
+    this.state.unitArray[i] = value;
+    this.setState({unitArray: this.state.unitArray});
+  };
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//   },
-//   wrapper: {
-//     paddingHorizontal: 15,
-//   },
-//   inputWrap: {
-//     marginVertical: 20,
-//     backgroundColor: 'transparent',
-//   },
-//   input: {
-//     flex: 1,
-//     paddingHorizontal: 10,
-//     backgroundColor: '#fff',
-//   },
-// });
+  onAddPress = () => {
+    this.setState({isAdding: true});
+    const { idToken, title } = this.props.screenProps;
+    var body = [];
+    for(var i = 0; i < this.state.length; i++) {
+      var temp = this.state.valueArray[i] + ' ' + this.state.unitArray[i] + ' ' + this.state.ingredients[i];
+      body.push(temp);
+    }
+    this.setState({body: body});
+
+
+    fetch('https://fireant-recipely.herokuapp.com/api/users/recipes', {
+      method: 'POST',
+      headers: {
+        'x-access-token': `Bearer ${idToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        title: this.state.title,
+        ingredients: this.state.body,
+        directions: this.state.text
+      }),
+    })
+      .then(
+        this.setState({isAdding: false})
+        )
+      .then(() => this.props.navigation.navigate('Details'));
+
+    fetch('https://fireant-recipely.herokuapp.com/api/users/custom_recipes', {
+      method: 'POST',
+      headers: {
+        'x-access-token': `Bearer ${idToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        title: this.state.title,
+        ingredients: this.state.body,
+        directions: this.state.text
+      })
+    });
+  };
+
+  render() {
+    const ingredients = this.state.ingredients;
+    //const ingredient = '';
+    //console.log(this.state.ingredients, 'ingredients');
+    console.log(this.state.unitArray, 'units');
+    return (
+      <ScrollView>
+        <View style={styles.wrapper}>
+          <View style={styles.inputWrap}>
+            <Card title="Recipe Name">
+              <TextInput
+                  style={[styles.input, {height: Math.max(40, this.state.height + 10)}]}
+                  autoFocus={true}
+                  multiline={true}
+                  onChangeText={title => {
+                    this.setState({title});
+                  }}
+                >
+                  <Text>{this.state.title}</Text>
+                </TextInput>
+              </Card>
+          </View>
+          <View style={styles.inputWrap}>
+             <Card title="Ingredients">
+              { ingredients.map((item, i) => {
+                return (
+                  <View key={i}>
+                    <View style={styles.slider}>
+                      <Slider
+                        value={this.state.value}
+                        onSlidingComplete={(value) => this.onValueChange(value, i)}
+                        step={0.25} maximumValue={15} minimumValue={0} />
+                    </View>
+                    <View
+                      style={styles.rowContainer}
+                    >
+                      <View style={styles.ingredientEntry}>
+                        <Text>{this.state.valueArray[i]}</Text>
+                        <ModalDropdown onSelect={(optionsI, value) => this.onUnitChange(value, i)}
+                          options={['-', 'tsp', 'Tbsp','cups', 'oz', 'lb', 'lbs', 'pinch']}
+                        //}
+                        />
+                        <Text>{item}</Text>
+                      </View>
+                    </View>
+                  </View>
+                );
+                })
+              }
+            </Card>
+          </View>
+          <Card>
+            <View style={styles.wrapper}>
+              <View style={styles.inputWrap}>
+                <TextInput
+                  style={[styles.input, {height: Math.max(40, this.state.height + 10)}]}
+                  autoFocus={true}
+                  multiline={true}
+                  onChangeText={text => {
+                    this.setState({text});
+                  }}
+                  onChange={event => {
+                    this.setState({height: event.nativeEvent.contentSize.height});
+                  }}
+                >
+                  <Text>{this.state.text}</Text>
+                </TextInput>
+              </View>
+            </View>
+          </Card>
+          { this.state.isAdding
+            ? <ActivityIndicator size="large" />
+              : <Button
+                  title="Add Recipe"
+                  icon={{name: 'note-add'}}
+                  onPress={this.onAddPress}
+                />
+          }
+        </View>
+      </ScrollView>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  slider: {
+    flex: 1,
+    marginLeft: 2,
+    marginRight: 8,
+    justifyContent: 'center',
+  },
+  wrapper: {
+    paddingHorizontal: 15,
+  },
+  inputWrap: {
+    marginVertical: 20,
+    backgroundColor: 'transparent',
+  },
+  input: {
+    flex: 1,
+    paddingHorizontal: 10,
+    backgroundColor: '#fff',
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 5,
+    flexWrap: 'wrap'
+  },
+  ingredientEntry: {
+    flexDirection: 'column',
+    maxWidth: 100,
+    flexGrow: 1
+  },
+  numEntry: {
+    flexDirection: 'column',
+    maxWidth: 100,
+    flexGrow: 1
+  },
+  unitEntry: {
+    flexDirection: 'column',
+    maxWidth: 100,
+    flexGrow: 1
+  }
+});
 
 export default AddRecipeScreen;
+
+
+
+
+
+
+
+
