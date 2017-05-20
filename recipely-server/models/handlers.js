@@ -469,6 +469,21 @@ function postCustomRecipe(req, res) {
     })
 }
 
+function deleteCustomRecipe(req, res) {
+  var userId = req.body.issuer;
+  var recipeId = req.params.id;
+  var query = `DELETE FROM custom_recipes WHERE user_id = $1 AND id = $2`;
+
+  return db.queryAsync(query, [userId, recipeId])
+    .then(results => {
+      res.status(201).json(results.rows)
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+}
+
 function postClarifai(req, res) {
   axios.post('https://api.clarifai.com/v2/token', null, {
     auth: {
@@ -505,5 +520,6 @@ module.exports = {
   putList,
   deleteList,
   postCustomRecipe,
-  getCustomRecipes
+  getCustomRecipes,
+  deleteCustomRecipe
 }
