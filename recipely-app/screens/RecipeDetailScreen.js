@@ -117,7 +117,6 @@ class RecipeDetailScreen extends Component {
     console.log('inside recipe detail screen ', this.state.ingredients);
     return (
       <ScrollView>
-      <Popup ref={popup => this.popup = popup } isOverlay={true} isOverlayClickClose={true}/>
         <Card
           title={title}
           titleStyle={styles.titleStyle}
@@ -191,6 +190,7 @@ class RecipeDetailScreen extends Component {
             />
           </View>
         </View>
+        <Popup ref={popup => this.popup = popup } isOverlay={true} isOverlayClickClose={true}/>
       </ScrollView>
     );
   }
