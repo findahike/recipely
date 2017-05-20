@@ -68,8 +68,14 @@ class RecipeDetailScreen extends Component {
   // Navigate to grocery list
   onGroceryPress = (ingredients) => {
     // add grocery list to database
-    fetch('https://fireant-recipely.herokuapp.com/api/grocerylist', {
-      method: 'POST'
+    const { idToken } = this.props.navigation.state.params;
+    fetch('https://fireant-recipely.herokuapp.com/api/users/lists', {
+      method: 'POST',
+      headers: {
+        'x-access-token': `Bearer ${idToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({listName: 'grocerylist', ingredients: ingredients})
     });
     // this.props.navigation.navigate('GroceryList');
   }
