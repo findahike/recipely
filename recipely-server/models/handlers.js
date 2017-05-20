@@ -436,6 +436,26 @@ function deleteList(req, res) {
     });
 }
 
+
+function postCustomRecipe(req, res) {
+  var userId = req.body.issuer;
+  var title = req.body.title;
+  var ingredients = JSON.stringify(req.body.ingredients);
+  var directions = JSON.stringify(req.body.directions);
+  var query = `
+    INSERT INTO custom_recipes (title, ingredients, directions, user_id)
+    VALUES ($1, $2, $3, $4)
+  `;
+
+  return db.queryAsync(query, [title, ingredients, directions, userId])
+    .then(() => {
+      res.status(201);
+    }).catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    })
+}
+
 function postClarifai(req, res) {
   axios.post('https://api.clarifai.com/v2/token', null, {
     auth: {
@@ -470,5 +490,6 @@ module.exports = {
   getLists,
   postList,
   putList,
-  deleteList
+  deleteList,
+  postCustomRecipe
 }
