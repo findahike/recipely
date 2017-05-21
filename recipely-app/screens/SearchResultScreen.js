@@ -35,13 +35,8 @@ class SearchResultScreen extends Component {
         .then(res => res.json())
         .then(res => userRecipes = res)
         .then(results => {
-          // onUserRecipeChange(userRecipes);
-          onUserRecipeChange([{
-            title: 'test',
-            ingredients: ['ing1', 'ing2'],
-            directions: ['direction1', 'direction2']
-          }]);
-          onSearchChange(query, [1]);
+          apiData.push(userRecipes.pop());
+          onSearchChange(query, apiData);
         });
     }
   }

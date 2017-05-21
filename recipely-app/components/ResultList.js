@@ -65,13 +65,24 @@ const ResultList = ({
     const newResults = recipes.filter(otherRecipe => otherRecipe.recipe_id !== recipe.recipe_id);
     onSearchChange(query, newResults);
   };
-  // console.log('..... ', userRecipes);
+
+  mapStateToProps = () => {
+    if (userRecipes.length > 0) {
+      onUserRecipeChange(userRecipes);
+      onSearchChange(query);
+    } else {
+      onUserRecipeChange([]);
+      onSearchChange([]);
+    }
+  }
   return (
     <ScrollView>
-      { userRecipes ? (userRecipes.map(recipe => {
+      { userRecipes !== undefined ? recipes.map(recipe => {
+        if (recipe.hasOwnProperty('id') && recipe.title.length > 0) {
+          console.log('user recipe :' , recipe);
           return (
             <Card
-              key={recipe.title}
+              key={recipe.id}
               title={recipe.title}
               // image={{ uri: recipe.image_url }}
             >
@@ -93,34 +104,33 @@ const ResultList = ({
               </View>
             </Card>
           );
-        }),
+        } else {
+          return (
+            <Card
+              key={recipe.recipe_id}
+              title={recipe.title}
+              image={{ uri: recipe.image_url }}
+            >
+              <Text style={styles.publisherText}>{recipe.publisher}</Text>
+              <View style={styles.buttonContainer}>
+                <Button
+                  title='Details'
+                  icon={{name: 'explore'}}
+                  buttonStyle={{marginLeft: 0}}
+                  onPress={() => this.onLearnMore(recipe)}
+                />
 
-      recipes.map(recipe => {
-        return (
-          <Card
-            key={recipe.recipe_id}
-            title={recipe.title}
-            image={{ uri: recipe.image_url }}
-          >
-            <Text style={styles.publisherText}>{recipe.publisher}</Text>
-            <View style={styles.buttonContainer}>
-              <Button
-                title='Details'
-                icon={{name: 'explore'}}
-                buttonStyle={{marginLeft: 0}}
-                onPress={() => this.onLearnMore(recipe)}
-              />
-
-              <Button
-                title='Add'
-                icon={{name: 'add'}}
-                buttonStyle={{marginRight: 0}}
-                onPress={() => this.handleSaveRecipeButton(recipe)}
-              />
-            </View>
-          </Card>
-        );
-      })) : <Text>Nothing</Text>
+                <Button
+                  title='Add'
+                  icon={{name: 'add'}}
+                  buttonStyle={{marginRight: 0}}
+                  onPress={() => this.handleSaveRecipeButton(recipe)}
+                />
+              </View>
+            </Card>
+          );
+        }
+      }) : <Text>Nothing</Text>
     }
     </ScrollView>
   );
