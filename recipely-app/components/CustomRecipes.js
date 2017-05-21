@@ -1,5 +1,3 @@
-// TODO: RecipeList.js and ResultList.js share a lot of code. Maybe refactor to
-// use higher order components.
 import React from 'react';
 import {
   StyleSheet,

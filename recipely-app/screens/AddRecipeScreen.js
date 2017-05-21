@@ -58,7 +58,7 @@ class AddRecipeScreen extends Component {
 
   onAddPress = () => {
     this.setState({isAdding: true});
-    const { idToken, title } = this.props.screenProps;
+    const { idToken } = this.props.screenProps;
     var body = [];
     for(var i = 0; i < this.state.length; i++) {
       var temp = this.state.valueArray[i] + ' ' + this.state.unitArray[i] + ' ' + this.state.ingredients[i];
@@ -66,8 +66,10 @@ class AddRecipeScreen extends Component {
     }
     this.setState({body: body});
 
+    console.log(this.state);
 
-    fetch('https://fireant-recipely.herokuapp.com/api/users/recipes', {
+
+    fetch(`https://fireant-recipely.herokuapp.com/api/users/custom_recipes`, {
       method: 'POST',
       headers: {
         'x-access-token': `Bearer ${idToken}`,
@@ -78,24 +80,15 @@ class AddRecipeScreen extends Component {
         ingredients: this.state.body,
         directions: this.state.text
       }),
-    })
-      .then(
-        this.setState({isAdding: false})
-        )
-      .then(() => this.props.navigation.navigate('Details'));
-
-    fetch('https://fireant-recipely.herokuapp.com/api/users/custom_recipes', {
-      method: 'POST',
-      headers: {
-        'x-access-token': `Bearer ${idToken}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        title: this.state.title,
-        ingredients: this.state.body,
-        directions: this.state.text
+    }).then((res) => {
+        console.log(res);
+        console.log(test);
+        res.json()
       })
-    });
+      .then((results) => {
+        console.log("recipe was added", results);
+        this.setState({isAdding: false})
+      })
   };
 
   render() {
