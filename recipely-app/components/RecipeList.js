@@ -14,6 +14,7 @@ import Button from '../components/CustomButton';
 // Navigation prop needs to be passed down because it does not get passed down
 // child components.
 const RecipeList = ({ navigation, recipes, notes, idToken, onRecipesChange }) => {
+  console.log(typeof recipes, 'recipes');
   onLearnMore = (recipe) => {
     // When user presses on "Details" button, navigate them to a detail screen.
     // Pass down props that can be acessed using this.props.navigation.state.params
@@ -42,33 +43,7 @@ const RecipeList = ({ navigation, recipes, notes, idToken, onRecipesChange }) =>
           return (
             <Card
               key={recipe.f2f_id}
-              title={recipe.title}
-              image={{ uri: recipe.thumbnail_url }}
-            >
-              <View style={styles.buttonContainer}>
-                <Button
-                  title='Details'
-                  icon={{name: 'explore'}}
-                  buttonStyle={{marginLeft: 0}}
-                  onPress={() => this.onLearnMore(recipe)}
-                />
-
-                <Button
-                  title='Delete'
-                  icon={{name: 'delete'}}
-                  buttonStyle={{marginRight: 0}}
-                  onPress={() => this.onDeletePress(recipe)}
-                />
-              </View>
-            </Card>
-          );
-        })
-      }
-      { recipes.map(recipe => {
-          return (
-            <Card
-              key={recipe.f2f_id}
-              title={recipe.title}
+              title={<Text>{recipe.title}</Text>}
               image={{ uri: recipe.thumbnail_url }}
             >
               <View style={styles.buttonContainer}>
@@ -105,3 +80,48 @@ const styles = StyleSheet.create({
 });
 
 export default RecipeList;
+
+
+/*
+      { recipes.map(recipe => {
+          return (
+            <Card
+              key={recipe.f2f_id}
+              title={recipe.title}
+              image={{ uri: recipe.thumbnail_url }}
+            >
+              <View style={styles.buttonContainer}>
+                <Button
+                  title='Details'
+                  icon={{name: 'explore'}}
+                  buttonStyle={{marginLeft: 0}}
+                  onPress={() => this.onLearnMore(recipe)}
+                />
+
+                <Button
+                  title='Delete'
+                  icon={{name: 'delete'}}
+                  buttonStyle={{marginRight: 0}}
+                  onPress={() => this.onDeletePress(recipe)}
+                />
+              </View>
+            </Card>
+          );
+        })
+      }
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

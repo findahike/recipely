@@ -3,10 +3,11 @@ import {
   ActivityIndicator,
   StyleSheet,
   Text,
+  ScrollView,
   View,
 } from 'react-native';
 import RecipeList from '../components/RecipeList';
-import RecipeList from '../components/CustomRecipes';
+import CustomRecipeList from '../components/CustomRecipes';
 
 class RecipeScreen extends Component {
   constructor(props) {
@@ -15,29 +16,26 @@ class RecipeScreen extends Component {
 
   render() {
     const { navigation, screenProps } = this.props;
-    console.log(this.props);
+    //console.log(this.props.navigation, 'props');
 
 
     return (
       <View style={styles.container}>
-        { screenProps.recipes.length !== 0
-          ? <CustomRecipes
-              navigation={navigation}
-              recipes={screenProps.customRecipes}
-              idToken={screenProps.idToken}
-              changeCustomRecipes={screenProps.changeCustomRecipes}
-            />
-            <RecipeList
-              navigation={navigation}
-              recipes={screenProps.recipes}
-              notes={screenProps.notes}
-              idToken={screenProps.idToken}
-              onRecipesChange={screenProps.onRecipesChange}
-            />
-          : <View>
-              <Text>You have no saved recipes.</Text>
-            </View>
-        }
+        <ScrollView>
+          <CustomRecipeList
+            navigation={navigation}
+            customRecipes={screenProps.customRecipes}
+            idToken={screenProps.idToken}
+            onCustomRecipesChange={screenProps.onCustomRecipesChange}
+          />
+          <RecipeList
+            navigation={navigation}
+            recipes={screenProps.recipes}
+            notes={screenProps.notes}
+            idToken={screenProps.idToken}
+            onRecipesChange={screenProps.onRecipesChange}
+          />
+          </ScrollView>
       </View>
     );
   }
@@ -50,3 +48,38 @@ const styles = StyleSheet.create({
 });
 
 export default RecipeScreen;
+
+
+
+/*
+{screenProps.customRecipes.length !==0
+           ? <View>
+              <CustomRecipes
+                navigation={navigation}
+                recipes={screenProps.customRecipes}
+                idToken={screenProps.idToken}
+                onCustomRecipesChange={screenProps.onCustomRecipesChange}
+              />
+              <RecipeList
+                navigation={navigation}
+                recipes={screenProps.recipes}
+                notes={screenProps.notes}
+                idToken={screenProps.idToken}
+                onRecipesChange={screenProps.onRecipesChange}
+              />
+            </View>
+            :
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -23,7 +23,7 @@ class RecipeDetailScreen extends Component {
       ingredients: this.props.navigation.state.params.ingredients,
       notes: this.props.navigation.state.params.notes,
     };
-    console.log(this.state.notes);
+    //console.log(this.state.notes);
   }
 
   componentDidMount() {
@@ -114,11 +114,11 @@ class RecipeDetailScreen extends Component {
 
   render() {
     const { title, thumbnail_url, image_url } = this.props.navigation.state.params;
-    console.log('inside recipe detail screen ', this.state.ingredients);
+    //console.log('inside recipe detail screen ', this.state.ingredients);
     return (
       <ScrollView>
         <Card
-          title={title}
+          title={<Text>{title}</Text>}
           titleStyle={styles.titleStyle}
           image={{ uri: thumbnail_url || image_url }}
         >
