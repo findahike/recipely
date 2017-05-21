@@ -113,8 +113,10 @@ class AddRecipeScreen extends Component {
               { ingredients.map((item, i) => {
                 return (
                   <View key={i}>
-                    <View style={styles.slider}>
+                    <View >
                       <Slider
+                        trackStyle={styles.track}
+                        thumbStyle={styles.thumb}
                         value={this.state.value}
                         onSlidingComplete={(value) => this.onValueChange(value, i)}
                         step={0.25} maximumValue={15} minimumValue={0} />
@@ -174,15 +176,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  slider: {
-    flex: 1,
-    marginLeft: 2,
-    marginRight: 8,
-    justifyContent: 'center',
-    // thumbTouchSize: {width: 40, height: 40},
-    // thumbTintColor: 'orange',
-    // minimumTrackTintColor: 'green',
-    // maximumTrackTintColor: 'red',
+  track: {
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: '#d0d0d0',
+  },
+  thumb: {
+    width: 4,
+    height: 20,
+    backgroundColor: '#eb6e1b',
+    top: 25,
   },
   wrapper: {
     paddingHorizontal: 15,
