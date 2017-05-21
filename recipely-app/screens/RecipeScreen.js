@@ -6,6 +6,7 @@ import {
   View,
 } from 'react-native';
 import RecipeList from '../components/RecipeList';
+import RecipeList from '../components/CustomRecipes';
 
 class RecipeScreen extends Component {
   constructor(props) {
@@ -20,7 +21,13 @@ class RecipeScreen extends Component {
     return (
       <View style={styles.container}>
         { screenProps.recipes.length !== 0
-          ? <RecipeList
+          ? <CustomRecipes
+              navigation={navigation}
+              recipes={screenProps.customRecipes}
+              idToken={screenProps.idToken}
+              changeCustomRecipes={screenProps.changeCustomRecipes}
+            />
+            <RecipeList
               navigation={navigation}
               recipes={screenProps.recipes}
               notes={screenProps.notes}
