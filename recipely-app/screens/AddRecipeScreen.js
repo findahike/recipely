@@ -82,6 +82,7 @@ class AddRecipeScreen extends Component {
       }),
     }).then((res) => {
         console.log(res);
+        console.log(test);
         res.json()
       })
       .then((results) => {
