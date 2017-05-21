@@ -443,6 +443,7 @@ function getCustomRecipes(req, res) {
   return db.queryAsync(query)
     .then(results => {
       res.status(200).json(results.rows);
+      console.log(results.rows, 'inside getCustomRecipes')
     })
     .catch(err => {
       console.log(err);
