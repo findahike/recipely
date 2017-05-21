@@ -9,88 +9,53 @@ import { Card } from 'react-native-elements';
 import { MaterialIcons } from '@expo/vector-icons';
 import Button from '../components/CustomButton';
 
-// Navigation prop needs to be passed down because it does not get passed down
-// child components.
-const RecipeList = ({ navigation, recipes, notes, idToken, onRecipesChange }) => {
+const CustomRecipeList = ({navigation, customRecipes, idToken, onCustomRecipesChange}) => {
+  console.log(customRecipes, 'customRecipes')
   onLearnMore = (recipe) => {
-    // When user presses on "Details" button, navigate them to a detail screen.
-    // Pass down props that can be acessed using this.props.navigation.state.params
-    const recipeNotes = notes.filter(note => note.f2f_id === recipe.f2f_id);
-    navigation.navigate('Details', { ...recipe, notes: recipeNotes, idToken });
-  }
+    navigation.navigate('Details', {recipe, idToken});
+  };
 
-  // Delete recipe
   onDeletePress = (recipe) => {
-    // Remove recipe from user's list of recipes
-    onRecipesChange(
-      recipes.filter(otherRecipe => otherRecipe.f2f_id !== recipe.f2f_id)
-    );
-    // Remove user's saved recipe from database
-    fetch(`https://fireant-recipely.herokuapp.com/api/users/recipes/${recipe.f2f_id}`, {
+    onCustomRecipesChange(customRecipes.filter(otherRecipe => otherRecipe.id !== recipe.id)
+      );
+    fetch(`https://fireant-recipely.herokuapp.com/api/users/custom_recipes/${recipe.id}`, {
       method: 'DELETE',
       headers: {
         'x-access-token': `Bearer ${idToken}`,
       },
     });
   };
-
   return (
     <ScrollView>
-      { recipes.map(recipe => {
-          return (
-            <Card
-              key={recipe.f2f_id}
-              title={recipe.title}
-              image={{ uri: recipe.thumbnail_url }}
+      {customRecipes.map(recipe => {
+        return (
+          <Card
+            key={recipe.id}
+            title={<Text>{recipe.title}</Text>}
+            image={{uri: "http://donaldandcathy.typepad.com/.a/6a00e55288aaf8883301675f83fbb9970b-800wi" }}
             >
-              <View style={styles.buttonContainer}>
-                <Button
-                  title='Details'
-                  icon={{name: 'explore'}}
-                  buttonStyle={{marginLeft: 0}}
-                  onPress={() => this.onLearnMore(recipe)}
+            <View style={styles.buttonContainer}>
+              <Button
+                title='Details'
+                icon={{name: 'explore'}}
+                buttonStyle={{marginLeft: 0}}
+                onPress={() => this.onLearnMore(recipe)}
                 />
-
                 <Button
                   title='Delete'
                   icon={{name: 'delete'}}
                   buttonStyle={{marginRight: 0}}
                   onPress={() => this.onDeletePress(recipe)}
-                />
-              </View>
-            </Card>
-          );
-        })
-      }
-      { recipes.map(recipe => {
-          return (
-            <Card
-              key={recipe.f2f_id}
-              title={recipe.title}
-              image={{ uri: recipe.thumbnail_url }}
-            >
-              <View style={styles.buttonContainer}>
-                <Button
-                  title='Details'
-                  icon={{name: 'explore'}}
-                  buttonStyle={{marginLeft: 0}}
-                  onPress={() => this.onLearnMore(recipe)}
-                />
-
-                <Button
-                  title='Delete'
-                  icon={{name: 'delete'}}
-                  buttonStyle={{marginRight: 0}}
-                  onPress={() => this.onDeletePress(recipe)}
-                />
-              </View>
-            </Card>
-          );
-        })
+                  />
+            </View>
+          </Card>
+        )
+      })
       }
     </ScrollView>
-  );
-};
+  )
+}
+
 
 const styles = StyleSheet.create({
   buttonContainer: {
@@ -102,4 +67,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RecipeList;
+export default CustomRecipeList;

@@ -47,24 +47,24 @@ class App extends Component {
               this.setIdToken(refreshToken);
             });
           });
-        var savedRecipes, postedRecipes;
         // Fetch user's recipes
         const fetchRecipes = fetch('https://fireant-recipely.herokuapp.com/api/users/recipes', {
           headers: { 'x-access-token': `Bearer ${idToken}` }
-        }).then((res) => {
-          savedRecipes = res.json();
-          this.onRecipesChange(savedRecipes);
-          }).then((res) => {
-            return fetch('https://fireant-recipely.herokuapp.com/api/users/custom-recipes', {
-              method: 'GET',
-              headers: {
-                'x-access-token': `Bearer ${idToken}`,
-                'Content-Type': 'application/json'
-              }
-          }).then((res) => {
-            postedRecipes = res.json();
-            this.changeCustomRecipes(postedRecipes);
-          });
+          }).then(res => {
+            if (res.status === 200) {
+              res.json()
+                .then(recipes => this.onRecipesChange(recipes));
+            }
+        });
+          //fetch user's custom recipes
+        const fetchCustom = fetch('https://fireant-recipely.herokuapp.com/api/users/custom_recipes', {
+          headers: { 'x-access-token': `Bearer ${idToken}` }
+          }).then(res => {
+            if (res.status === 200) {
+              res.json()
+                .then(recipes => this.onCustomRecipesChange(recipes));
+            }
+        });
 
         // Fetch user's notes
         const fetchNotes = fetch('https://fireant-recipely.herokuapp.com/api/users/notes', {
@@ -72,12 +72,12 @@ class App extends Component {
         }).then(res => {
             if (res.status === 200) {
               res.json()
-                .then(notes => this.onNotesChange(notes));
+                .then(notes => this.onNotesChange(notes))
             }
           });
 
         // App is ready when the user's recipes and notes have been fetched.
-        Promise.all([fetchRecipes, fetchNotes, getRefreshToken])
+        Promise.all([fetchRecipes, fetchCustom, fetchNotes, getRefreshToken])
           .then(() => this.setState({isAppReady: true}));
       } else {
         this.setState({isAppReady: true});
@@ -106,15 +106,16 @@ class App extends Component {
 
   onRecipesChange = (recipes) => {
     this.setState({recipes});
+    //console.log(this.state.recipes, 'recipes state');
   };
 
   onImageChange = (image) => {
     this.setState({image});
-  }
+  };
 
   onPredictionsChange = (predictions) => {
     this.setState({predictions});
-  }
+  };
 
   onSearchChange = (query, results) => {
     this.setState({
@@ -138,8 +139,10 @@ class App extends Component {
     this.setState({popularRecipes});
   };
 
-  changeCustomRecipes = (customRecipes) => {
+  onCustomRecipesChange = (customRecipes) => {
+    //console.log(customRecipes, 'inside onCustomRecipesChange');
     this.setState({customRecipes});
+    //console.log(this.state.customRecipes, 'customRecipes state');
   };
 
   render() {
@@ -168,7 +171,7 @@ class App extends Component {
             onNotesChange: this.onNotesChange,
             onPopularRecipesChange: this.onPopularRecipesChange,
             customRecipes: this.state.customRecipes,
-            changeCustomRecipes: this.changeCustomRecipes
+            onCustomRecipesChange: this.onCustomRecipesChange
           }
         }
       />

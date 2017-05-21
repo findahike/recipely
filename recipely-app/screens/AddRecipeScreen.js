@@ -35,7 +35,7 @@ class AddRecipeScreen extends Component {
     const { idToken } = this.props.screenProps;
     var ingredients = this.props.screenProps.ingredients;
     var ingredientList = ingredients.map((ingredient) => {
-      this.state.unitArray.push(0)
+      this.state.unitArray.push(0);
       this.state.valueArray.push(0);
       this.state.length++;
       return ingredient.name;
@@ -81,14 +81,14 @@ class AddRecipeScreen extends Component {
         directions: this.state.text
       }),
     }).then((res) => {
-        console.log(res);
-        console.log(test);
-        res.json()
+        //console.log(res);
+        //console.log(test);
+        res.json();
       })
       .then((results) => {
-        console.log("recipe was added", results);
+        //console.log("recipe was added", results);
         this.setState({isAdding: false})
-      })
+      });
   };
 
   render() {
@@ -184,6 +184,10 @@ const styles = StyleSheet.create({
     marginLeft: 2,
     marginRight: 8,
     justifyContent: 'center',
+    // thumbTouchSize: {width: 40, height: 40},
+    // thumbTintColor: 'orange',
+    // minimumTrackTintColor: 'green',
+    // maximumTrackTintColor: 'red',
   },
   wrapper: {
     paddingHorizontal: 15,
