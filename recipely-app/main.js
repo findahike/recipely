@@ -20,6 +20,7 @@ class App extends Component {
       ingredients: [],
       notes: [],
       popularRecipes: null,
+      customRecipes:[]
     };
   }
 
@@ -46,15 +47,23 @@ class App extends Component {
               this.setIdToken(refreshToken);
             });
           });
-
+        var savedRecipes, postedRecipes;
         // Fetch user's recipes
         const fetchRecipes = fetch('https://fireant-recipely.herokuapp.com/api/users/recipes', {
           headers: { 'x-access-token': `Bearer ${idToken}` }
-        }).then(res => {
-            if (res.status === 200) {
-              res.json()
-                .then(recipes => this.onRecipesChange(recipes));
-            }
+        }).then((res) => {
+          savedRecipes = res.json();
+          this.onRecipesChange(savedRecipes);
+          }).then((res) => {
+            return fetch('https://fireant-recipely.herokuapp.com/api/users/custom-recipes', {
+              method: 'GET',
+              headers: {
+                'x-access-token': `Bearer ${idToken}`,
+                'Content-Type': 'application/json'
+              }
+          }).then((res) => {
+            postedRecipes = res.json();
+            this.changeCustomRecipes(postedRecipes);
           });
 
         // Fetch user's notes
@@ -129,6 +138,10 @@ class App extends Component {
     this.setState({popularRecipes});
   };
 
+  changeCustomRecipes = (customRecipes) => {
+    this.setState({customRecipes});
+  };
+
   render() {
     return (
       <StartupStack
@@ -154,6 +167,8 @@ class App extends Component {
             onLoginChange: this.onLoginChange,
             onNotesChange: this.onNotesChange,
             onPopularRecipesChange: this.onPopularRecipesChange,
+            customRecipes: this.state.customRecipes,
+            changeCustomRecipes: this.changeCustomRecipes
           }
         }
       />

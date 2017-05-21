@@ -64,6 +64,32 @@ const RecipeList = ({ navigation, recipes, notes, idToken, onRecipesChange }) =>
           );
         })
       }
+      { recipes.map(recipe => {
+          return (
+            <Card
+              key={recipe.f2f_id}
+              title={recipe.title}
+              image={{ uri: recipe.thumbnail_url }}
+            >
+              <View style={styles.buttonContainer}>
+                <Button
+                  title='Details'
+                  icon={{name: 'explore'}}
+                  buttonStyle={{marginLeft: 0}}
+                  onPress={() => this.onLearnMore(recipe)}
+                />
+
+                <Button
+                  title='Delete'
+                  icon={{name: 'delete'}}
+                  buttonStyle={{marginRight: 0}}
+                  onPress={() => this.onDeletePress(recipe)}
+                />
+              </View>
+            </Card>
+          );
+        })
+      }
     </ScrollView>
   );
 };
