@@ -66,7 +66,7 @@ class AddRecipeScreen extends Component {
     }
     this.setState({body: body});
 
-    console.log(this.state);
+    //console.log(this.state);
 
 
     fetch(`https://fireant-recipely.herokuapp.com/api/users/custom_recipes`, {
@@ -80,14 +80,9 @@ class AddRecipeScreen extends Component {
         ingredients: this.state.body,
         directions: this.state.text
       }),
-    }).then((res) => {
-        //console.log(res);
-        //console.log(test);
-        res.json();
-      })
-      .then((results) => {
+    }).then((results) => {
         //console.log("recipe was added", results);
-        this.setState({isAdding: false})
+        this.setState({isAdding: false});
       });
   };
 
@@ -95,7 +90,7 @@ class AddRecipeScreen extends Component {
     const ingredients = this.state.ingredients;
     //const ingredient = '';
     //console.log(this.state.ingredients, 'ingredients');
-    console.log(this.state.unitArray, 'units');
+    //console.log(this.state.unitArray, 'units');
     return (
       <ScrollView>
         <View style={styles.wrapper}>

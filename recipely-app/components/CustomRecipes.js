@@ -10,9 +10,9 @@ import { MaterialIcons } from '@expo/vector-icons';
 import Button from '../components/CustomButton';
 
 const CustomRecipeList = ({navigation, customRecipes, idToken, onCustomRecipesChange}) => {
-  console.log(customRecipes, 'customRecipes')
+  console.log(customRecipes, 'customRecipes');
   onLearnMore = (recipe) => {
-    navigation.navigate('Details', {recipe, idToken});
+    navigation.navigate('Details', {...recipe, idToken});
   };
 
   onDeletePress = (recipe) => {

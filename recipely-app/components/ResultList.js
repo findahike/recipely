@@ -70,7 +70,7 @@ const ResultList = ({
           return (
             <Card
               key={recipe.recipe_id}
-              title={recipe.title}
+              title={<Text>{recipe.title}</Text>}
               image={{ uri: recipe.image_url }}
             >
               <Text style={styles.publisherText}>{recipe.publisher}</Text>

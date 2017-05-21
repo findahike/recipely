@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   StyleSheet,
   Text,
+  ScrollView,
   View,
 } from 'react-native';
 import RecipeList from '../components/RecipeList';
@@ -20,19 +21,21 @@ class RecipeScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <CustomRecipeList
-          navigation={navigation}
-          customRecipes={screenProps.customRecipes}
-          idToken={screenProps.idToken}
-          onCustomRecipesChange={screenProps.onCustomRecipesChange}
-        />
-        <RecipeList
-          navigation={navigation}
-          recipes={screenProps.recipes}
-          notes={screenProps.notes}
-          idToken={screenProps.idToken}
-          onRecipesChange={screenProps.onRecipesChange}
-        />
+        <ScrollView>
+          <CustomRecipeList
+            navigation={navigation}
+            customRecipes={screenProps.customRecipes}
+            idToken={screenProps.idToken}
+            onCustomRecipesChange={screenProps.onCustomRecipesChange}
+          />
+          <RecipeList
+            navigation={navigation}
+            recipes={screenProps.recipes}
+            notes={screenProps.notes}
+            idToken={screenProps.idToken}
+            onRecipesChange={screenProps.onRecipesChange}
+          />
+          </ScrollView>
       </View>
     );
   }

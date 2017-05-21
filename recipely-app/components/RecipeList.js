@@ -43,7 +43,7 @@ const RecipeList = ({ navigation, recipes, notes, idToken, onRecipesChange }) =>
           return (
             <Card
               key={recipe.f2f_id}
-              title={recipe.title}
+              title={<Text>{recipe.title}</Text>}
               image={{ uri: recipe.thumbnail_url }}
             >
               <View style={styles.buttonContainer}>

@@ -118,7 +118,7 @@ class RecipeDetailScreen extends Component {
     return (
       <ScrollView>
         <Card
-          title={title}
+          title={<Text>{title}</Text>}
           titleStyle={styles.titleStyle}
           image={{ uri: thumbnail_url || image_url }}
         >
