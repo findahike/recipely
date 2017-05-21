@@ -13,9 +13,9 @@ class SearchResultScreen extends Component {
   }
 
   componentDidMount() {
-    const { searchResults, onSearchChange, idToken } = this.props.screenProps;
+    const { searchResults, onSearchChange, idToken, onUserRecipeChange } = this.props.screenProps;
     const { query } = this.props.navigation.state.params;
-    var userCreated;
+    var userRecipes;
     var apiData;
     if (!searchResults.hasOwnProperty(query)) {
       fetch(`https://fireant-recipely.herokuapp.com/api/recipes?q=${query}`)
@@ -33,8 +33,16 @@ class SearchResultScreen extends Component {
           })
         })
         .then(res => res.json())
-        .then(res => userCreated = res)
-        .then(results => onSearchChange(query, userCreated.concat(apiData)));
+        .then(res => userRecipes = res)
+        .then(results => {
+          // onUserRecipeChange(userRecipes);
+          onUserRecipeChange([{
+            title: 'test',
+            ingredients: ['ing1', 'ing2'],
+            directions: ['direction1', 'direction2']
+          }]);
+          onSearchChange(query, [1]);
+        });
     }
   }
 
@@ -44,7 +52,9 @@ class SearchResultScreen extends Component {
       idToken,
       onRecipesChange,
       recipes: savedRecipes,
-      onSearchChange
+      onSearchChange,
+      onUserRecipeChange,
+      userRecipes
     } = this.props.screenProps;
     const { query } = this.props.navigation.state.params;
     const { navigation } = this.props;
@@ -65,6 +75,8 @@ class SearchResultScreen extends Component {
               query={query}
               onRecipesChange={onRecipesChange}
               onSearchChange={onSearchChange}
+              onUserRecipeChange={onUserRecipeChange}
+              userRecipes={userRecipes}
             />
           : <View style={styles.loadingContainer}>
               <Text>Loading recipes</Text>
