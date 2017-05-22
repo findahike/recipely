@@ -10,14 +10,14 @@ import { MaterialIcons } from '@expo/vector-icons';
 import Button from '../components/CustomButton';
 
 const CustomRecipeList = ({navigation, customRecipes, idToken, onCustomRecipesChange}) => {
-  console.log(customRecipes, 'customRecipes');
+
   onLearnMore = (recipe) => {
     navigation.navigate('Details', {...recipe, idToken});
   };
 
-  onDeletePress = (recipe) => {
-    onCustomRecipesChange(customRecipes.filter(otherRecipe => otherRecipe.id !== recipe.id)
-      );
+  onCustomDeletePress = (recipe) => {
+    console.log('deleting........', customRecipes);
+    onCustomRecipesChange(customRecipes.filter(otherRecipe => otherRecipe.id !== recipe.id));
     fetch(`https://fireant-recipely.herokuapp.com/api/users/custom_recipes/${recipe.id}`, {
       method: 'DELETE',
       headers: {
@@ -45,16 +45,16 @@ const CustomRecipeList = ({navigation, customRecipes, idToken, onCustomRecipesCh
                   title='Delete'
                   icon={{name: 'delete'}}
                   buttonStyle={{marginRight: 0}}
-                  onPress={() => this.onDeletePress(recipe)}
+                  onPress={() => this.onCustomDeletePress(recipe)}
                   />
             </View>
           </Card>
-        )
+        );
       })
       }
     </ScrollView>
-  )
-}
+  );
+};
 
 
 const styles = StyleSheet.create({
