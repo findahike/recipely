@@ -20,6 +20,7 @@ class App extends Component {
       ingredients: [],
       notes: [],
       popularRecipes: null,
+      userRecipes: [],
       customRecipes:[]
     };
   }
@@ -139,6 +140,10 @@ class App extends Component {
     this.setState({popularRecipes});
   };
 
+  onUserRecipeChange = (userRecipes) => {
+    this.setState({userRecipes});
+  };
+
   onCustomRecipesChange = (customRecipes) => {
     //console.log(customRecipes, 'inside onCustomRecipesChange');
     this.setState({customRecipes});
@@ -161,6 +166,7 @@ class App extends Component {
             ingredients: this.state.ingredients,
             notes: this.state.notes,
             popularRecipes: this.state.popularRecipes,
+            userRecipes: this.state.userRecipes,
             setIdToken: this.setIdToken,
             onRecipesChange: this.onRecipesChange,
             onImageChange: this.onImageChange,
@@ -170,6 +176,7 @@ class App extends Component {
             onLoginChange: this.onLoginChange,
             onNotesChange: this.onNotesChange,
             onPopularRecipesChange: this.onPopularRecipesChange,
+            onUserRecipeChange: this.onUserRecipeChange,
             customRecipes: this.state.customRecipes,
             onCustomRecipesChange: this.onCustomRecipesChange
           }
