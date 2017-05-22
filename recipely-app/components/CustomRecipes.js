@@ -11,8 +11,12 @@ import Button from '../components/CustomButton';
 
 const CustomRecipeList = ({navigation, customRecipes, idToken, onCustomRecipesChange}) => {
 
-  onCustomLearnMore = ({customIngredients, title}) => {
-    navigation.navigate('CustomDetails', {customIngredients, title, idToken});
+  onCustomLearnMore = ({customIngredients, title, directions}) => {
+    console.log('custom learn more... ', customRecipes);
+    //TODO: change hardcoded directions to parse database directions
+    directions = 'mix this.stir that.';
+    directions = directions.split('.');
+    navigation.navigate('CustomDetails', {customIngredients, title, directions, idToken});
   };
 
   onCustomDeletePress = (recipe) => {

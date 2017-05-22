@@ -18,12 +18,6 @@ import Button from '../components/CustomButton';
 class CustomRecipeDetailScreen extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      ingredients: this.props.navigation.state.params.ingredients,
-      notes: this.props.navigation.state.params.notes,
-    };
-    //console.log(this.state.notes);
   }
 
   componentDidMount() {
@@ -54,8 +48,7 @@ class CustomRecipeDetailScreen extends Component {
   }
 
   render() {
-    const { title, thumbnail_url, image_url, customIngredients } = this.props.navigation.state.params;
-    console.log('custom recipe detail screen ', customIngredients);
+    const { title, thumbnail_url, image_url, customIngredients, directions } = this.props.navigation.state.params;
     return (
       <ScrollView>
         <Card
@@ -76,11 +69,17 @@ class CustomRecipeDetailScreen extends Component {
                 </View>
             }
           </View>
+          <View>
+            <Text style={styles.ingredientText}>Directions</Text>
+            {
+              directions.map((direction, i) => {
+                return (
+                  <Text key={i}>{`\u2022 ${direction}`}</Text>
+                );
+              })
+            }
+          </View>
           <View style={styles.buttonMargins}>
-            <Button
-              title='Directions'
-              onPress={this.handlePressButtonDirections}
-            />
             <Button
               title='Add to Grocery List'
               onPress={
