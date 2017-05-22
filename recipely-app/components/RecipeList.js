@@ -14,7 +14,7 @@ import Button from '../components/CustomButton';
 // Navigation prop needs to be passed down because it does not get passed down
 // child components.
 const RecipeList = ({ navigation, recipes, notes, idToken, onRecipesChange }) => {
-  console.log(typeof recipes, 'recipes');
+
   onLearnMore = (recipe) => {
     // When user presses on "Details" button, navigate them to a detail screen.
     // Pass down props that can be acessed using this.props.navigation.state.params
