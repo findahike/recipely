@@ -55,7 +55,6 @@ class CustomRecipeDetailScreen extends Component {
 
   render() {
     const { title, thumbnail_url, image_url, customIngredients } = this.props.navigation.state.params;
-    const { customRecipes } = this.props.screenProps;
     console.log('custom recipe detail screen ', customIngredients);
     return (
       <ScrollView>

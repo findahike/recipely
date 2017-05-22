@@ -11,8 +11,8 @@ import Button from '../components/CustomButton';
 
 const CustomRecipeList = ({navigation, customRecipes, idToken, onCustomRecipesChange}) => {
 
-  onCustomLearnMore = ({customIngredients}) => {
-    navigation.navigate('CustomDetails', {customIngredients, idToken});
+  onCustomLearnMore = ({customIngredients, title}) => {
+    navigation.navigate('CustomDetails', {customIngredients, title, idToken});
   };
 
   onCustomDeletePress = (recipe) => {
@@ -25,6 +25,7 @@ const CustomRecipeList = ({navigation, customRecipes, idToken, onCustomRecipesCh
       },
     });
   };
+
   return (
     <ScrollView>
       {customRecipes.map(recipe => {
