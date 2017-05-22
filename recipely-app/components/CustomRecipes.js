@@ -11,8 +11,8 @@ import Button from '../components/CustomButton';
 
 const CustomRecipeList = ({navigation, customRecipes, idToken, onCustomRecipesChange}) => {
 
-  onLearnMore = (recipe) => {
-    navigation.navigate('Details', {...recipe, idToken});
+  onCustomLearnMore = ({customIngredients}) => {
+    navigation.navigate('CustomDetails', {customIngredients, idToken});
   };
 
   onCustomDeletePress = (recipe) => {
@@ -39,7 +39,7 @@ const CustomRecipeList = ({navigation, customRecipes, idToken, onCustomRecipesCh
                 title='Details'
                 icon={{name: 'explore'}}
                 buttonStyle={{marginLeft: 0}}
-                onPress={() => this.onLearnMore(recipe)}
+                onPress={() => this.onCustomLearnMore(recipe)}
                 />
                 <Button
                   title='Delete'
