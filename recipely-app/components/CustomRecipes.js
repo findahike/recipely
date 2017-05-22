@@ -11,12 +11,12 @@ import Button from '../components/CustomButton';
 
 const CustomRecipeList = ({navigation, customRecipes, idToken, onCustomRecipesChange}) => {
 
-  onCustomLearnMore = ({customIngredients, title, directions}) => {
-    console.log('custom learn more... ', customRecipes);
+  onCustomLearnMore = ({ingredients, title, directions}) => {
+    console.log('custom learn more... ', ingredients);
     //TODO: change hardcoded directions to parse database directions
-    directions = 'mix this.stir that.';
-    directions = directions.split('.');
-    navigation.navigate('CustomDetails', {customIngredients, title, directions, idToken});
+    // directions = 'mix this.stir that.';
+    // directions = directions.split('.');
+    navigation.navigate('CustomDetails', {ingredients, title, directions, idToken});
   };
 
   onCustomDeletePress = (recipe) => {
@@ -33,6 +33,7 @@ const CustomRecipeList = ({navigation, customRecipes, idToken, onCustomRecipesCh
   return (
     <ScrollView>
       {customRecipes.map(recipe => {
+        console.log ('mapping custom recipe ...', recipe);
         return (
           <Card
             key={recipe.id}

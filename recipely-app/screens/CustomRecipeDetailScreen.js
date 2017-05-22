@@ -48,7 +48,7 @@ class CustomRecipeDetailScreen extends Component {
   }
 
   render() {
-    const { title, thumbnail_url, image_url, customIngredients, directions } = this.props.navigation.state.params;
+    const { title, thumbnail_url, image_url, ingredients, directions } = this.props.navigation.state.params;
     return (
       <ScrollView>
         <Card
@@ -58,9 +58,9 @@ class CustomRecipeDetailScreen extends Component {
         >
           <View>
             <Text style={styles.ingredientText}>Ingredients</Text>
-            { customIngredients
+            { ingredients
               ? <View>
-                  <IngredientList ingredients={customIngredients}
+                  <IngredientList ingredients={ingredients.split(',')}
                   />
                 </View>
               : <View>
@@ -71,19 +71,13 @@ class CustomRecipeDetailScreen extends Component {
           </View>
           <View>
             <Text style={styles.ingredientText}>Directions</Text>
-            {
-              directions.map((direction, i) => {
-                return (
-                  <Text key={i}>{`\u2022 ${direction}`}</Text>
-                );
-              })
-            }
+            <Text style={styles.ingredientText}>{directions}</Text>
           </View>
           <View style={styles.buttonMargins}>
             <Button
               title='Add to Grocery List'
               onPress={
-                () => this.onGroceryPress(customIngredients)
+                () => this.onGroceryPress(ingredients)
               }
             />
           </View>
