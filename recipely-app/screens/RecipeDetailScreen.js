@@ -69,23 +69,23 @@ class RecipeDetailScreen extends Component {
   // Navigate to grocery list
   onGroceryPress = (ingredients) => {
     this.popup.confirm({
-            content: 'Are you sure?',
-            ok: {
-              callback: () => {
-                 // add grocery list to database
-                const { idToken } = this.props.navigation.state.params;
-                fetch('https://fireant-recipely.herokuapp.com/api/users/lists', {
-                  method: 'POST',
-                  headers: {
-                    'x-access-token': `Bearer ${idToken}`,
-                    'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({listName: 'grocerylist', ingredients: ingredients})
-                });
-                // this.props.navigation.navigate('GroceryList');
-              }
-            }
-        });
+      content: 'Are you sure?',
+      ok: {
+        callback: () => {
+           // add grocery list to database
+          const { idToken } = this.props.navigation.state.params;
+          fetch('https://fireant-recipely.herokuapp.com/api/users/lists', {
+            method: 'POST',
+            headers: {
+              'x-access-token': `Bearer ${idToken}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({listName: 'grocerylist', ingredients: ingredients})
+          });
+          // this.props.navigation.navigate('GroceryList');
+        }
+      }
+    });
   }
 
   // Delete note
@@ -136,10 +136,12 @@ class RecipeDetailScreen extends Component {
             }
           </View>
           <View style={styles.buttonMargins}>
-            <Button
-              title='Directions'
-              onPress={this.handlePressButtonAsync}
-            />
+            {
+              <Button
+                title='Directions'
+                onPress={this.handlePressButtonAsync}
+              />
+            }
             <Button
               title='Add to Grocery List'
               onPress={

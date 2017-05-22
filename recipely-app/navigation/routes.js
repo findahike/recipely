@@ -14,6 +14,7 @@ import PhotoScreen from '../screens/PhotoScreen';
 import PhotoResultScreen from '../screens/PhotoResultScreen';
 import RecipeScreen from '../screens/RecipeScreen';
 import RecipeDetailScreen from '../screens/RecipeDetailScreen';
+import CustomRecipeDetailScreen from '../screens/CustomRecipeDetailScreen';
 import EditNoteScreen from '../screens/EditNoteScreen';
 import AddNoteScreen from '../screens/AddNoteScreen';
 import PopularScreen from '../screens/PopularScreen';
@@ -54,6 +55,12 @@ const RecipeStack = StackNavigator({
   },
   Details: {
     screen: RecipeDetailScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: `${navigation.state.params.title}`,
+    }),
+  },
+  CustomDetails: {
+    screen: CustomRecipeDetailScreen,
     navigationOptions: ({ navigation }) => ({
       title: `${navigation.state.params.title}`,
     }),
