@@ -19,7 +19,7 @@ class AddRecipeScreen extends Component {
     super(props);
 
     this.state = {
-      length: 0,
+      size: 0,
       title: '',
       ingredients: [],
       valueArray: [],
@@ -37,7 +37,7 @@ class AddRecipeScreen extends Component {
     var ingredientList = ingredients.map((ingredient) => {
       this.state.unitArray.push(0);
       this.state.valueArray.push(0);
-      this.state.length++;
+      this.state.size++;
       return ingredient.name;
     });
 
@@ -59,14 +59,17 @@ class AddRecipeScreen extends Component {
   onAddPress = () => {
     this.setState({isAdding: true});
     const { idToken } = this.props.screenProps;
-    var body = [];
-    for(var i = 0; i < this.state.length; i++) {
+    this.setState({body: []});
+    for(var i = 0; i < this.state.size; i++) {
       var temp = this.state.valueArray[i] + ' ' + this.state.unitArray[i] + ' ' + this.state.ingredients[i];
-      body.push(temp);
+      console.log('temp... ', temp);
+      this.state.body.push(temp);
+      // console.log('body ...', body);
     }
-    this.setState({body: body});
+    // console.log('body is ....',body);
+    this.setState({body: this.state.body});
+    console.log('state ...', this.state);
 
-    //console.log(this.state);
 
 
     fetch(`https://fireant-recipely.herokuapp.com/api/users/custom_recipes`, {
@@ -81,7 +84,7 @@ class AddRecipeScreen extends Component {
         directions: this.state.text
       }),
     }).then((results) => {
-        //console.log("recipe was added", results);
+        console.log("recipe was added", results);
         this.setState({isAdding: false});
       });
   };
@@ -119,7 +122,7 @@ class AddRecipeScreen extends Component {
                         thumbStyle={styles.thumb}
                         value={this.state.value}
                         onSlidingComplete={(value) => this.onValueChange(value, i)}
-                        step={0.25} maximumValue={15} minimumValue={0} />
+                        step={1} maximumValue={15} minimumValue={0} />
                     </View>
                     <View
                       style={styles.rowContainer}
@@ -163,7 +166,7 @@ class AddRecipeScreen extends Component {
               : <Button
                   title="Add Recipe"
                   icon={{name: 'note-add'}}
-                  onPress={this.onAddPress}
+                  onPress={() => this.onAddPress()}
                 />
           }
         </View>
